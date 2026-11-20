@@ -1,5 +1,6 @@
 import { site } from '@/lib/site';
 import ContactForm from '@/components/ContactForm';
+import Icon from '@/components/Icon';
 
 export const metadata = { title: 'Contact' };
 
@@ -21,11 +22,11 @@ export default function Contact() {
           {any && (
             <div className="card">
               <h3>Association office</h3>
-              <ul className="plain">
-                {c.phone && <li><strong>Phone</strong><a href={`tel:${c.phone.replace(/\s/g, '')}`}>{c.phone}</a></li>}
-                {c.email && <li><strong>Email</strong><a href={`mailto:${c.email}`}>{c.email}</a></li>}
-                {c.address && <li><strong>Address</strong>{c.address}</li>}
-                {c.hours && <li><strong>Office hours</strong>{c.hours}</li>}
+              <ul className="plain contact-list">
+                {c.phone && <li><Icon name="Phone" /><strong>Phone</strong><a href={`tel:${c.phone.replace(/\s/g, '')}`}>{c.phone}</a></li>}
+                {c.email && <li><Icon name="Mail" /><strong>Email</strong><a href={`mailto:${c.email}`}>{c.email}</a></li>}
+                {c.address && <li><Icon name="MapPin" /><strong>Address</strong>{c.address}</li>}
+                {c.hours && <li><Icon name="Clock" /><strong>Office hours</strong>{c.hours}</li>}
                 {c.mapUrl && <li><a href={c.mapUrl} target="_blank" rel="noopener noreferrer">Open in Google Maps</a></li>}
               </ul>
             </div>

@@ -1,7 +1,8 @@
 import { fmtDateTime, fmtDay, fmtMonth } from '@/lib/format';
+import Icon from './Icon';
 
 export default function EventList({ events, empty }) {
-  if (!events.length) return <p className="muted">{empty}</p>;
+  if (!events.length) return <p className="muted empty">{empty}</p>;
   return (
     <div className="event-list">
       {events.map((e) => (
@@ -12,9 +13,9 @@ export default function EventList({ events, empty }) {
           </div>
           <div>
             <h3>{e.title}</h3>
-            <p className="muted">
-              {fmtDateTime(e.starts_at)}
-              {e.venue ? ` · ${e.venue}` : ''}
+            <p className="meta">
+              <span><Icon name="Clock" size={16} />{fmtDateTime(e.starts_at)}</span>
+              {e.venue && <span><Icon name="MapPin" size={16} />{e.venue}</span>}
             </p>
             {e.description && <p className="pre">{e.description}</p>}
           </div>

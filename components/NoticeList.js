@@ -2,9 +2,9 @@ import Link from 'next/link';
 import { CATEGORY_LABEL, fmtDate } from '@/lib/format';
 
 export default function NoticeList({ notices, empty }) {
-  if (!notices.length) return <p className="muted">{empty}</p>;
+  if (!notices.length) return <p className="muted empty">{empty}</p>;
   return (
-    <ul className="notice-list">
+    <ul className="notice-list card">
       {notices.map((n) => (
         <li key={n.id}>
           <Link href={`/notices/${n.id}`}>

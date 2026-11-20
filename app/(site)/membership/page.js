@@ -1,5 +1,6 @@
 import { site, formatFee } from '@/lib/site';
 import MembershipForm from '@/components/MembershipForm';
+import { Checks, Steps } from '@/components/Tiles';
 
 export const metadata = { title: 'Membership' };
 
@@ -19,7 +20,7 @@ export default function Membership() {
         <div className="wrap">
           <div className="grid-2">
             {m.tiers.map((t) => (
-              <div key={t.id} className="card tier">
+              <div key={t.id} className={`card tier ${t.id === "lifetime" ? "tier-feature" : ""}`}>
                 <h3>{t.name}</h3>
                 <p className="price">{formatFee(t.fee) ?? 'Fee announced soon'}</p>
                 {t.fee != null && <p className="muted">{t.period}</p>}
@@ -30,19 +31,17 @@ export default function Membership() {
         </div>
       </section>
 
-      <section className="section alt">
-        <div className="wrap split">
+      <section className="section">
+        <div className="wrap"><div className="panel split">
           <div>
             <h2>Member benefits</h2>
-            <ul className="checks">{m.benefits.map((b) => <li key={b}>{b}</li>)}</ul>
+            <Checks items={m.benefits} />
           </div>
           <div>
             <h2>How it works</h2>
-            <ol className="steps">
-              {m.steps.map((s, i) => <li key={s}><span>{i + 1}</span>{s}</li>)}
-            </ol>
+            <Steps steps={m.steps} />
           </div>
-        </div>
+        </div></div>
       </section>
 
       <section className="section" id="apply">
