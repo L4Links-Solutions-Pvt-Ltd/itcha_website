@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { site } from '@/lib/site';
 import Committee from '@/components/Committee';
+import Icon from '@/components/Icon';
+import { Tiles } from '@/components/Tiles';
 
 export const metadata = { title: 'About' };
 
@@ -20,46 +22,34 @@ export default function About() {
       <section className="section">
         <div className="wrap split">
           <div className="card">
+            <span className="tile-icon tone-teal"><Icon name="HandHeart" size={24} /></span>
             <h3>Our mission</h3>
             <p>{site.mission}</p>
           </div>
           <div className="card">
+            <span className="tile-icon tone-gold"><Icon name="Eye" size={24} /></span>
             <h3>Our vision</h3>
             <p>{site.vision}</p>
           </div>
         </div>
       </section>
 
-      <section className="section alt">
+      <section className="section">
         <div className="wrap">
           <h2>What we stand for</h2>
-          <div className="grid-4">
-            {site.values.map((v) => (
-              <div key={v.title} className="card">
-                <h3>{v.title}</h3>
-                <p>{v.text}</p>
-              </div>
-            ))}
-          </div>
+          <Tiles items={site.values} />
         </div>
       </section>
 
       <section className="section">
         <div className="wrap">
           <h2>Our work</h2>
-          <div className="grid-2">
-            {site.focusAreas.map((f) => (
-              <div key={f.title} className="card">
-                <h3>{f.title}</h3>
-                <p>{f.text}</p>
-              </div>
-            ))}
-          </div>
+          <Tiles items={site.focusAreas} cols={2} />
         </div>
       </section>
 
       {site.areas.length > 0 && (
-        <section className="section alt">
+        <section className="section">
           <div className="wrap">
             <h2>Where we are</h2>
             <div className="chips">{site.areas.map((a) => <span key={a} className="chip">{a}</span>)}</div>
@@ -77,7 +67,7 @@ export default function About() {
       )}
 
       {site.registration && (
-        <section className="section alt">
+        <section className="section">
           <div className="wrap">
             <h2>Registration</h2>
             <p>
@@ -88,11 +78,11 @@ export default function About() {
         </section>
       )}
 
-      <section className="section cta-band">
-        <div className="wrap cta-row">
+      <section className="section">
+        <div className="wrap"><div className="cta-band">
           <h2>Run a hostel in the IT corridor?</h2>
-          <Link href="/membership#apply" className="btn btn-gold">Apply for membership</Link>
-        </div>
+          <Link href="/membership#apply" className="btn btn-primary">Apply for membership <Icon name="ArrowRight" size={18} className="" /></Link>
+        </div></div>
       </section>
     </>
   );
