@@ -1,4 +1,5 @@
 'use server';
+import { isArea } from '@/lib/areas';
 import bcrypt from 'bcryptjs';
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -163,7 +164,8 @@ function memberFields(formData) {
   if (out.owner_name.length < 2) return { error: 'Owner name is required.' };
   if (!phone) return { error: 'A valid 10-digit mobile number is required.' };
   if (out.email && !isEmail(out.email)) return { error: 'Email address is not valid.' };
-  if (out.hostel_name.length < 2 || out.area.length < 2) return { error: 'Hostel name and area are required.' };
+  if (out.hostel_name.length < 2) return { error: 'Hostel name is required.' };
+  if (!isArea(out.area)) return { error: 'Choose the area from the list.' };
   return { data: out };
 }
 
@@ -216,10 +218,10 @@ export async function deleteMember(formData) {
 
 async function recipients(filter) {
   const sql = db();
-  const area = clean(filter.area, 120);
+  const area = isArea(filter.area) ? filter.area : '';
   if (area) {
     return sql`SELECT id, owner_name, phone, email FROM members
-               WHERE status = 'approved' AND (valid_until IS NULL OR valid_until >= CURRENT_DATE) AND area ILIKE ${'%' + area + '%'}`;
+               WHERE status = 'approved' AND (valid_until IS NULL OR valid_until >= CURRENT_DATE) AND area = ${area}`;
   }
   return sql`SELECT id, owner_name, phone, email FROM members
              WHERE status = 'approved' AND (valid_until IS NULL OR valid_until >= CURRENT_DATE)`;

@@ -2,6 +2,7 @@
 import { useActionState } from 'react';
 import { applyForMembership } from '@/app/actions/public';
 import { HOSTEL_TYPES, site } from '@/lib/site';
+import { AREAS } from '@/lib/areas';
 
 export default function MembershipForm() {
   const [state, action, pending] = useActionState(applyForMembership, null);
@@ -31,7 +32,12 @@ export default function MembershipForm() {
             {HOSTEL_TYPES.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
           </select>
         </label>
-        <label>Area / locality *<input name="area" required maxLength={120} defaultValue={v.area} placeholder="e.g. Madhapur" /></label>
+        <label>Area / locality *
+          <select name="area" required defaultValue={v.area ?? ''}>
+            <option value="" disabled>Choose your area</option>
+            {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
+          </select>
+        </label>
         <label>Number of beds<input name="beds" inputMode="numeric" maxLength={5} defaultValue={v.beds} /></label>
         <label>Number of branches<input name="branches" inputMode="numeric" maxLength={3} defaultValue={v.branches || '1'} /></label>
         <label className="span-2">Hostel address<textarea name="address" rows={2} maxLength={400} defaultValue={v.address} /></label>

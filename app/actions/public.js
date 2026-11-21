@@ -1,4 +1,5 @@
 'use server';
+import { isArea } from '@/lib/areas';
 import { db, hasDb } from '@/lib/db';
 import { clean, cleanMultiline, isEmail, tenDigitPhone, toInt } from '@/lib/validate';
 import { HOSTEL_TYPES, site } from '@/lib/site';
@@ -26,7 +27,7 @@ export async function applyForMembership(_prev, formData) {
   if (email && !isEmail(email)) return fail('Please enter a valid email address, or leave it blank.', v);
   if (hostel_name.length < 2) return fail('Please enter your hostel name.', v);
   if (!hostel_type) return fail('Please choose the hostel type.', v);
-  if (area.length < 2) return fail('Please enter the area / locality.', v);
+  if (!isArea(area)) return fail('Please choose your area from the list.', v);
   if (v.beds && !beds) return fail('Number of beds should be a number.', v);
   if (!branches) return fail('Number of branches should be between 1 and 100.', v);
   if (formData.get('consent') !== 'on') return fail('Please confirm you agree to follow the association rules.', v);
