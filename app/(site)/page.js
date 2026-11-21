@@ -116,7 +116,10 @@ export default async function Home() {
         <section className="section">
           <div className="wrap">
             <p className="eyebrow">Leadership</p>
-            <h2>Office bearers</h2>
+            <div className="section-head">
+              <h2>Office bearers</h2>
+              <Link href="/committee">Full committee <Icon name="ChevronRight" size={16} className="" /></Link>
+            </div>
             <Committee />
           </div>
         </section>

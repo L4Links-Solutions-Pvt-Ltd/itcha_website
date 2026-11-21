@@ -62,6 +62,7 @@ export default function About() {
           <div className="wrap">
             <h2>Office bearers</h2>
             <Committee />
+            <p className="mt"><Link href="/committee">Full central committee and area committees <Icon name="ChevronRight" size={16} className="" /></Link></p>
           </div>
         </section>
       )}
@@ -71,8 +72,8 @@ export default function About() {
           <div className="wrap">
             <h2>Registration</h2>
             <p>
-              {site.name} is registered under the {site.registration.act} (Reg. No. {site.registration.number}
-              {site.registration.year ? `, ${site.registration.year}` : ''}).
+              {site.shortName} is registered as {site.registration.registeredName || site.name}
+              {site.registration.act ? ` under the ${site.registration.act}` : ''}, Reg. No. {site.registration.number}.
             </p>
           </div>
         </section>

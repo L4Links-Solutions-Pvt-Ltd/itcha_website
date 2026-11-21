@@ -17,7 +17,7 @@ export default function SiteFooter() {
           </div>
           {site.registration && (
             <p className="muted-light">
-              Registered under the {site.registration.act}, Reg. No. {site.registration.number}
+              {site.registration.act ? `Registered under the ${site.registration.act}, ` : 'Registered society, '}Reg. No. {site.registration.number}
             </p>
           )}
         </div>

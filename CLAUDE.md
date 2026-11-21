@@ -7,5 +7,6 @@ Website + committee dashboard for ITCHA (IT Corridor Hostels Association, Telang
 - Each DB gets its schema + first super admin from the build (`scripts/migrate.mjs`), so the first deploy after pointing an env at a new DB sets it up.
 - All DB access is raw SQL through `db()` in `lib/db.js` (Neon tagged templates; always parameterise, never interpolate strings into SQL). Schema lives only in `scripts/migrate.mjs`, which must stay idempotent (`IF NOT EXISTS`, additive changes) because it runs on every build.
 - Every server action in `app/admin/actions.js` must start with `requireAdmin()` (middleware is only a first gate). Log state changes with `audit()`.
+- Committee data: `lib/central-committee.js` (central committee, sub-committees, EC members by area; from ITCHA's handwritten Telugu list) and `lib/area-committees.js` (15 locality committees, generated from ITCHA's delegate-card spreadsheet). Never publish members' phone numbers. Rendered at `/committee`.
 - Association facts belong in `lib/site.js`. Never invent committee names, fees, registration numbers or stats: leave them empty (the block hides) until ITCHA confirms them.
 - Public pages must render without a database (`lib/public-data.js` falls back to empty lists).
