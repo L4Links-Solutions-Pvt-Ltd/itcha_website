@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
+import { AREAS, isArea } from '@/lib/areas';
 import { fmtDate } from '@/lib/format';
 import { addMember } from '../../actions';
 import ActionForm from '@/components/admin/ActionForm';
@@ -18,10 +19,12 @@ export default async function Members({ searchParams }) {
   const filter = FILTERS[sp.filter] ? sp.filter : 'active';
   const q = String(sp.q ?? '').trim().slice(0, 80);
   const like = `%${q}%`;
+  const area = isArea(sp.area) ? sp.area : '';
   const rows = await db()`
     SELECT id, membership_no, owner_name, phone, hostel_name, area, beds, tier, status, valid_until
     FROM members
     WHERE status IN ('approved','suspended')
+      AND (${area} = '' OR area = ${area})
       AND (${q} = '' OR owner_name ILIKE ${like} OR hostel_name ILIKE ${like} OR area ILIKE ${like} OR phone LIKE ${like} OR membership_no ILIKE ${like})
       AND CASE ${filter}
             WHEN 'active' THEN status = 'approved' AND (valid_until IS NULL OR valid_until >= CURRENT_DATE)
@@ -30,7 +33,7 @@ export default async function Members({ searchParams }) {
             WHEN 'suspended' THEN status = 'suspended'
             ELSE TRUE END
     ORDER BY hostel_name LIMIT 500`;
-  const qs = (f) => `/admin/members?filter=${f}${q ? `&q=${encodeURIComponent(q)}` : ''}`;
+  const qs = (f) => `/admin/members?filter=${f}${q ? `&q=${encodeURIComponent(q)}` : ''}${area ? `&area=${encodeURIComponent(area)}` : ''}`;
   return (
     <>
       <div className="page-head">
@@ -45,7 +48,11 @@ export default async function Members({ searchParams }) {
         </div>
         <form className="search">
           <input type="hidden" name="filter" value={filter} />
-          <input name="q" defaultValue={q} placeholder="Search name, hostel, area, phone, ITCHA no." />
+          <select name="area" defaultValue={area} aria-label="Area">
+            <option value="">All areas</option>
+            {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
+          </select>
+          <input name="q" defaultValue={q} placeholder="Search name, hostel, phone, ITCHA no." />
           <button className="btn btn-sm">Search</button>
         </form>
       </div>

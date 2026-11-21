@@ -1,4 +1,5 @@
 import { HOSTEL_TYPES, site } from '@/lib/site';
+import { AREAS } from '@/lib/areas';
 
 // The DB driver parses DATE columns as local-midnight Dates, so format with local getters (not toISOString).
 const d = (v) => {
@@ -19,7 +20,13 @@ export default function MemberFields({ m = {} }) {
           {HOSTEL_TYPES.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
         </select>
       </label>
-      <label>Area *<input name="area" required defaultValue={m.area} maxLength={120} /></label>
+      <label>Area *
+        <select name="area" required defaultValue={m.area ?? ''}>
+          <option value="" disabled>Choose area</option>
+          {AREAS.map((a) => <option key={a} value={a}>{a}</option>)}
+          {m.area && !AREAS.includes(m.area) && <option value={m.area} disabled>{m.area} (old value, pick an area)</option>}
+        </select>
+      </label>
       <label>Beds<input name="beds" defaultValue={m.beds ?? ''} inputMode="numeric" /></label>
       <label>Branches<input name="branches" defaultValue={m.branches ?? 1} inputMode="numeric" /></label>
       <label>Membership type
