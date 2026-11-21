@@ -5,6 +5,9 @@ import EventList from '@/components/EventList';
 import NoticeList from '@/components/NoticeList';
 import Committee from '@/components/Committee';
 import Icon from '@/components/Icon';
+import HeroVideo from '@/components/HeroVideo';
+import Gallery from '@/components/Gallery';
+import { featuredPhotos } from '@/lib/gallery';
 import { Checks, Steps, Tiles } from '@/components/Tiles';
 
 export const revalidate = 300;
@@ -28,11 +31,30 @@ export default async function Home() {
               <p className="hero-note">{annual.name}: {formatFee(annual.fee)} {annual.period}</p>
             )}
           </div>
-          <div className="hero-logo">
-            <img src="/logo.png" alt={`${site.shortName} logo`} width="360" height="360" />
-          </div>
+          {site.heroVideo ? (
+            <HeroVideo {...site.heroVideo} />
+          ) : (
+            <div className="hero-logo">
+              <img src="/logo.png" alt={`${site.shortName} logo`} width="360" height="360" />
+            </div>
+          )}
         </div>
       </section>
+
+      {featuredPhotos().length > 0 && (
+        <section className="section">
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <p className="eyebrow">Moments</p>
+                <h2>ITCHA in action</h2>
+              </div>
+              <Link href="/events#photos">See all photos <Icon name="ChevronRight" size={16} className="" /></Link>
+            </div>
+            <Gallery photos={featuredPhotos()} label="ITCHA moments" variant="mosaic" />
+          </div>
+        </section>
+      )}
 
       {site.stats.length > 0 && (
         <section className="section-tight">
