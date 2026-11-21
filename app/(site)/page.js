@@ -5,6 +5,7 @@ import EventList from '@/components/EventList';
 import NoticeList from '@/components/NoticeList';
 import Committee from '@/components/Committee';
 import Icon from '@/components/Icon';
+import HeroVideo from '@/components/HeroVideo';
 import { Checks, Steps, Tiles } from '@/components/Tiles';
 
 export const revalidate = 300;
@@ -28,9 +29,13 @@ export default async function Home() {
               <p className="hero-note">{annual.name}: {formatFee(annual.fee)} {annual.period}</p>
             )}
           </div>
-          <div className="hero-logo">
-            <img src="/logo.png" alt={`${site.shortName} logo`} width="360" height="360" />
-          </div>
+          {site.heroVideo ? (
+            <HeroVideo {...site.heroVideo} />
+          ) : (
+            <div className="hero-logo">
+              <img src="/logo.png" alt={`${site.shortName} logo`} width="360" height="360" />
+            </div>
+          )}
         </div>
       </section>
 
